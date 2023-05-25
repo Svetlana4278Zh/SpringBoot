@@ -2,7 +2,9 @@ package ru.skypro.lessons.springweb.weblibrary2.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Employee;
+import ru.skypro.lessons.springweb.weblibrary2.projections.EmployeeFullInfo;
 import ru.skypro.lessons.springweb.weblibrary2.service.EmployeeService;
 
 import java.util.List;
@@ -13,10 +15,10 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    @GetMapping
-    public List<Employee> getAllEmployees(){
-        return employeeService.getAllEmployees();
-    }
+//    @GetMapping
+//    public List<EmployeeDTO> getAllEmployees(){
+//        return employeeService.getAllEmployees();
+//    }
     @PostMapping("/")
     public void addEmployee(@RequestBody Employee employee) {
         employeeService.addEmployee(employee);
@@ -26,7 +28,7 @@ public class EmployeeController {
         employeeService.editEmployee(id, employee);
     }
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable(value = "id") Integer id){
+    public EmployeeDTO getEmployeeById(@PathVariable(value = "id") Integer id){
         return employeeService.getEmployeeById(id);
     }
     @DeleteMapping("/{id}")
@@ -34,7 +36,24 @@ public class EmployeeController {
         employeeService.deleteEmployeeById(id);
     }
     @GetMapping("/salaryHigherThan")
-    public List<Employee> getEmployeesWithSalaryHigherThan(@RequestParam("salary") Integer salary) {
+    public List<EmployeeDTO> getEmployeesWithSalaryHigherThan(@RequestParam("salary") Integer salary) {
         return employeeService.getEmployeesWithSalaryHigherThan(salary);
+    }
+    @GetMapping("/withHighestSalary")
+    public List<EmployeeDTO> getEmployeeswithHighestSalary(){
+        return employeeService.getEmployeeswithHighestSalary();
+    }
+    @GetMapping()
+    public List<EmployeeDTO> getEmployeeswithPosition(@RequestParam(value = "position", required = false) String position){
+        return employeeService.getEmployeeswithPosition(position);
+    }
+    @GetMapping("/{id}/fullInfo")
+    public EmployeeFullInfo getEmployeeByIdFullInfo (@PathVariable(value = "id") Integer id) {
+        return employeeService.getEmployeeByIdFullInfo(id);
+    }
+    @GetMapping("/page")
+    public List<EmployeeDTO> getEmployeeWithPaging(@RequestParam(value = "page",required = false) Integer page){
+        Integer unitPerPage = 10;
+        return employeeService.getEmployeeWithPaging(page,unitPerPage);
     }
 }
