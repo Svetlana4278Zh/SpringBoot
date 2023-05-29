@@ -1,7 +1,8 @@
 package ru.skypro.lessons.springweb.weblibrary2.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.support.CrudMethodMetadata;
 import org.springframework.data.repository.CrudRepository;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Employee;
 import ru.skypro.lessons.springweb.weblibrary2.projections.EmployeeFullInfo;
@@ -25,4 +26,5 @@ public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
             "WHERE e.position = p AND e.id = ?1")
     EmployeeFullInfo findByIdFullInfo(int id);
 
+    Page<Employee> findAll(Pageable employeeOfConcretePage);
 }

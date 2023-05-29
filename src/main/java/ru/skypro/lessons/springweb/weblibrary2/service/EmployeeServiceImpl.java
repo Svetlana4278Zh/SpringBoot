@@ -9,7 +9,6 @@ import ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Employee;
 import ru.skypro.lessons.springweb.weblibrary2.projections.EmployeeFullInfo;
 import ru.skypro.lessons.springweb.weblibrary2.repository.EmployeeRepository;
-import ru.skypro.lessons.springweb.weblibrary2.repository.EmployeeRepositoryWithPaging;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +20,6 @@ import static ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO.fromEmploy
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService{
     private final EmployeeRepository employeeRepository;
-    private final EmployeeRepositoryWithPaging employeeRepositoryWithPaging;
 
     public List<EmployeeDTO> getAllEmployees() {
         return employeeRepository.findAllEmployees()
@@ -103,7 +101,7 @@ public class EmployeeServiceImpl implements EmployeeService{
             pageIndex = 0;
         }
         Pageable employeeOfConcretePage = PageRequest.of(pageIndex, unitPerPage);
-        Page<Employee> page = employeeRepositoryWithPaging.findAll(employeeOfConcretePage);
+        Page<Employee> page = employeeRepository.findAll(employeeOfConcretePage);
 
         return page.stream()
                 .map(EmployeeDTO::fromEmployee)
