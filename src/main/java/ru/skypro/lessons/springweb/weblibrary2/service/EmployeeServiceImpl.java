@@ -1,17 +1,30 @@
 package ru.skypro.lessons.springweb.weblibrary2.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO;
+import ru.skypro.lessons.springweb.weblibrary2.dto.ReportDTO;
+import ru.skypro.lessons.springweb.weblibrary2.exceptions.InternalServerError;
+import ru.skypro.lessons.springweb.weblibrary2.exceptions.ReportNotFoundException;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Employee;
+import ru.skypro.lessons.springweb.weblibrary2.pojo.Report;
 import ru.skypro.lessons.springweb.weblibrary2.projections.EmployeeFullInfo;
 import ru.skypro.lessons.springweb.weblibrary2.repository.EmployeeRepository;
+import ru.skypro.lessons.springweb.weblibrary2.repository.ReportRepository;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO.fromEmployee;
@@ -20,6 +33,8 @@ import static ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO.fromEmploy
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService{
     private final EmployeeRepository employeeRepository;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ReportRepository reportRepository;
 
     public List<EmployeeDTO> getAllEmployees() {
         return employeeRepository.findAllEmployees()
@@ -108,7 +123,37 @@ public class EmployeeServiceImpl implements EmployeeService{
                 .toList();
     }
 
-    //    public int getIndexById(int id){
-//        return getAllEmployees().indexOf(getEmployeeById(id));
-//    }
+    public void addEmployeeFromFile(MultipartFile file){
+        File fileEmployee = new File(file.getOriginalFilename());
+        try {
+            List<Employee> employeeList = objectMapper.readValue(fileEmployee, new TypeReference<>(){});
+            for (Employee value : employeeList) {
+                employeeRepository.save(value);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public int report(){
+        try{
+            Report report = new Report();
+            report.setReport(buildReport());
+            return reportRepository.save(report).getId();
+        } catch (JsonProcessingException e){
+            e.printStackTrace();
+            throw new InternalServerError();
+        }
+    }
+    public String buildReport() throws JsonProcessingException {
+        List<ReportDTO> reports = employeeRepository.buildReportsDTO();
+        return objectMapper.writeValueAsString(reports);
+    }
+
+    public Resource downloadReport(int id){
+        return new ByteArrayResource(reportRepository.findById(id)
+                .orElseThrow(ReportNotFoundException::new)
+                .getReport()
+                .getBytes(StandardCharsets.UTF_8)
+        );
+    }
 }
