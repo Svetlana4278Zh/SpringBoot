@@ -1,5 +1,7 @@
 package ru.skypro.lessons.springweb.weblibrary2.service;
 
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Employee;
 import ru.skypro.lessons.springweb.weblibrary2.projections.EmployeeFullInfo;
@@ -19,4 +21,7 @@ public interface EmployeeService {
     List<EmployeeFullInfo> findAllEmployeeFullInfo();
     EmployeeFullInfo getEmployeeByIdFullInfo(int id);
     List<EmployeeDTO> getEmployeeWithPaging(Integer pageIndex, Integer unitPerPage);
+    void addEmployeeFromFile(MultipartFile file);
+    int report();
+    public Resource downloadReport(int id);
 }

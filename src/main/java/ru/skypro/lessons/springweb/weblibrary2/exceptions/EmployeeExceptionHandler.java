@@ -17,4 +17,12 @@ public class EmployeeExceptionHandler {
     public ResponseEntity<?> handleException(Exception exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.FORBIDDEN);
     }
+    @ExceptionHandler(InternalServerError.class)
+    public ResponseEntity<?> internalServerError() {
+        return ResponseEntity.internalServerError().build();
+    }
+    @ExceptionHandler(ReportNotFoundException.class)
+    public ResponseEntity<?> notFound() {
+        return ResponseEntity.notFound().build();
+    }
 }

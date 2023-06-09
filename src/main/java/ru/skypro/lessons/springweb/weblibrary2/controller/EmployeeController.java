@@ -1,7 +1,9 @@
 package ru.skypro.lessons.springweb.weblibrary2.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Employee;
 import ru.skypro.lessons.springweb.weblibrary2.projections.EmployeeFullInfo;
@@ -23,6 +25,7 @@ public class EmployeeController {
     public void addEmployee(@RequestBody Employee employee) {
         employeeService.addEmployee(employee);
     }
+
     @PutMapping("/{id}")
     public void editEmployee(@PathVariable(value = "id") Integer id, @RequestBody Employee employee){
         employeeService.editEmployee(id, employee);
@@ -55,5 +58,11 @@ public class EmployeeController {
     public List<EmployeeDTO> getEmployeeWithPaging(@RequestParam(value = "page",required = false) Integer page){
         Integer unitPerPage = 10;
         return employeeService.getEmployeeWithPaging(page,unitPerPage);
+    }
+    @PostMapping(value = "/upload" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void uploadFile(@RequestParam("file") MultipartFile file) {
+
+        System.out.println("Размер файла: " + file.getSize() + " байт");
+        employeeService.addEmployeeFromFile(file);
     }
 }

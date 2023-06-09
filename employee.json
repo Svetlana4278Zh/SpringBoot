@@ -1,0 +1,5 @@
+[
+ {"id": 0, "name": "Test1", "salary": 200000, "position": {"id": 2, "namePosition": ""}},
+ {"id": 0, "name": "Test2", "salary": 160000, "position": {"id": 1, "namePosition": ""}},
+ {"id": 0, "name": "Test3", "salary": 175000, "position": {"id": 3, "namePosition": ""}}
+]

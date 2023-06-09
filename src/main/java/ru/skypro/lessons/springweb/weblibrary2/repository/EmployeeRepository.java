@@ -2,14 +2,15 @@ package ru.skypro.lessons.springweb.weblibrary2.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import ru.skypro.lessons.springweb.weblibrary2.dto.ReportDTO;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Employee;
 import ru.skypro.lessons.springweb.weblibrary2.projections.EmployeeFullInfo;
 
 import java.util.List;
 
-public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     @Query(value = "SELECT * FROM employee",
             nativeQuery = true)
     List<Employee> findAllEmployees();
@@ -27,4 +28,9 @@ public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
     EmployeeFullInfo findByIdFullInfo(int id);
 
     Page<Employee> findAll(Pageable employeeOfConcretePage);
+
+    @Query("SELECT new ru.skypro.lessons.springweb.weblibrary2.dto."+
+            "ReportDTO(e.position.namePosition, COUNT(e.id), MAX(e.salary), MIN(e.salary), AVG(e.salary))"+
+            " FROM Employee e GROUP BY e.position.namePosition")
+    List<ReportDTO> buildReportsDTO();
 }
