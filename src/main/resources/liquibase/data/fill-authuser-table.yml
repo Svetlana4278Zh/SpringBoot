@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: fill-auth_user-table
+      author: Svetlana
+      changes:
+        - insert:
+            tableName: auth_user
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: user_name
+                  value: Ivan
+              - column:
+                  name: password
+                  value: $2y$04$yL.2DzX01VhRkkiFG0QKIekqpx3qQTpPv/pOVhfCqIAcTSHyTgHj2
+              - column:
+                  name: is_enabled
+                  value: true
+        - insert:
+            tableName: auth_user
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: user_name
+                  value: Admin
+              - column:
+                  name: password
+                  value: $2y$04$yL.2DzX01VhRkkiFG0QKIekqpx3qQTpPv/pOVhfCqIAcTSHyTgHj2
+              - column:
+                  name: is_enabled
+                  value: true

@@ -9,7 +9,7 @@ import lombok.Data;
 public class Authority {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Column(nullable = false, unique = true)
+    private long id;
+    @Column(nullable = false, unique = true, length = 16)
     private String role;
 }

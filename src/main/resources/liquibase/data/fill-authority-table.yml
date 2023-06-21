@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: fill-authority-table
+      author: Svetlana
+      changes:
+        - insert:
+            tableName: authority
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: role
+                  value: ROLE_USER
+              - column:
+                  name: user_id
+                  value: 1
+        - insert:
+            tableName: authority
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: role
+                  value: ROLE_ADMIN
+              - column:
+                  name: user_id
+                  value: 2

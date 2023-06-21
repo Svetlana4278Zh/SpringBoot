@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-position-table
+      author: Svetlana
+      changes:
+        - createTable:
+            tableName: position
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name_position
+                  type: varchar(16)
+                  constraints:
+                    nullable: false
