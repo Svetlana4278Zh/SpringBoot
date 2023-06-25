@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-authority-table
+      author: Svetlana
+      changes:
+        - createTable:
+            tableName: authority
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: role
+                  type: varchar(16)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+              - addForeignKeyConstraint:
+                  baseColumnNames: user_id
+                  baseTableName: authority
+                  constraintName: fk_authority_user_id
+                  referencedColumnNames: id
+                  referencedTableName: auth_user

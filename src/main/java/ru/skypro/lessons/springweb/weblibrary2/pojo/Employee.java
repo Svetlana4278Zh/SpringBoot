@@ -15,6 +15,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false, length = 16)
     private String name;
     private int salary;
     @ManyToOne

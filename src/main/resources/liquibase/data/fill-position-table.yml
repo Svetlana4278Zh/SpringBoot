@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: fill-position-table
+      author: Svetlana
+      changes:
+        - insert:
+            tableName: position
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: name_position
+                  value: manager
+        - insert:
+            tableName: position
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: name_position
+                  value: director
+        - insert:
+            tableName: position
+            columns:
+              - column:
+                  name: id
+                  value: 3
+              - column:
+                  name: name_position
+                  value: assistant
