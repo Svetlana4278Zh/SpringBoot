@@ -42,10 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     public List<EmployeeDTO> getAllEmployees() {
         logger.info("Was invoked method for get a list of employees");
-        List<EmployeeDTO> employeeDTOList = employeeRepository.findAllEmployees()
-                .stream()
-                .map(EmployeeDTO::fromEmployee)
-                .collect(Collectors.toList());
+        List<EmployeeDTO> employeeDTOList = employeeRepository.findAllEmployeesDTO();
         logger.debug("Successful access to the database");
         return employeeDTOList;
     }
