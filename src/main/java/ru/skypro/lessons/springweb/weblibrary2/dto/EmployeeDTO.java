@@ -1,14 +1,12 @@
 package ru.skypro.lessons.springweb.weblibrary2.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Employee;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmployeeDTO {
