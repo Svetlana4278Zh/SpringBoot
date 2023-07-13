@@ -72,12 +72,15 @@ public class EmployeeServiceImplTest {
         employeeService.editEmployee(input,expected);
 
         verify(mockedEmployeeRepository, times(1)).save(expected);
+        verify(mockedEmployeeRepository, times(1)).findById(input);
     }
 
     @Test
     void editEmployee_IncorrectId_ThrowsException(){
         Employee employee = new Employee(1, "Ivan", 100000, new Position(1, "Manager"));
         int input = 1;
+
+        when(mockedEmployeeRepository.findById(input)).thenReturn(null);
 
         assertThrows(NullPointerException.class, () -> employeeService.editEmployee(input, employee));
     }
@@ -93,6 +96,7 @@ public class EmployeeServiceImplTest {
         EmployeeDTO actual = employeeService.getEmployeeById(input);
 
         assertEquals(expected, actual);
+        verify(mockedEmployeeRepository, times(1)).findById(input);
     }
 
     @Test
@@ -154,6 +158,7 @@ public class EmployeeServiceImplTest {
         List<EmployeeDTO> actual = employeeService.getEmployeeswithPosition(position.getNamePosition());
 
         assertEquals(expected, actual);
+        verify(mockedEmployeeRepository, times(1)).findAllEmployees();
     }
 
     @Test
