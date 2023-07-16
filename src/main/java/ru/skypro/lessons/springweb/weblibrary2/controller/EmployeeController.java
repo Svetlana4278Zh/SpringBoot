@@ -17,10 +17,10 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-//    @GetMapping
-//    public List<EmployeeDTO> getAllEmployees(){
-//        return employeeService.getAllEmployees();
-//    }
+    @GetMapping("/all")
+    public List<EmployeeDTO> getAllEmployees(){
+        return employeeService.getAllEmployees();
+    }
     @PostMapping("/")
     public void addEmployee(@RequestBody Employee employee) {
         employeeService.addEmployee(employee);

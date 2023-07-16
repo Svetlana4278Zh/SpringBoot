@@ -4,6 +4,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Employee;
+import ru.skypro.lessons.springweb.weblibrary2.pojo.Position;
 import ru.skypro.lessons.springweb.weblibrary2.projections.EmployeeFullInfo;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 public interface EmployeeService {
     List<EmployeeDTO> getAllEmployees();
     void addEmployee(Employee employee);
+    void addPosition(Position position);
     void editEmployee(int id, Employee employee);
     EmployeeDTO getEmployeeById(int id);
     void deleteEmployeeById(int id);
