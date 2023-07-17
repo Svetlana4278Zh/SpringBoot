@@ -57,7 +57,9 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value(name));
+                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.name").value(name))
+                .andExpect(jsonPath("$.salary").value(salary));
     }
 
     @SneakyThrows
@@ -140,7 +142,8 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].name").value(name2));
+                .andExpect(jsonPath("$[0].name").value(name2))
+                .andExpect(jsonPath("$[0].salary").value(salary2));
     }
 
     @SneakyThrows
@@ -157,7 +160,8 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].name").value(name2));
+                .andExpect(jsonPath("$[0].name").value(name2))
+                .andExpect(jsonPath("$[0].salary").value(salary2));
     }
 
     @SneakyThrows
@@ -179,7 +183,8 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].name").value(name));
+                .andExpect(jsonPath("$[0].name").value(name))
+                .andExpect(jsonPath("$[0].salary").value(salary));
     }
 
     @SneakyThrows
@@ -201,7 +206,9 @@ public class EmployeeControllerTest {
 
         mockMvc.perform(get(EMPLOYEE_URL + "/{id}/fullInfo", id))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value(name));
+                .andExpect(jsonPath("$.name").value(name))
+                .andExpect(jsonPath("$.salary").value(salary))
+                .andExpect(jsonPath("$.positionName").value(position.getNamePosition()));
     }
 
     @SneakyThrows
@@ -219,7 +226,9 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].name").value(name1))
-                .andExpect(jsonPath("$[1].name").value(name2));
+                .andExpect(jsonPath("$[1].name").value(name2))
+                .andExpect(jsonPath("$[0].salary").value(salary1))
+                .andExpect(jsonPath("$[1].salary").value(salary2));
     }
 
     private void addEmployee(String name, int salary) throws Exception{
