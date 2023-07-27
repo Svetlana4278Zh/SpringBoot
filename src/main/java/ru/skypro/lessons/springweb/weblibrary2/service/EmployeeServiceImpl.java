@@ -15,12 +15,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO;
 import ru.skypro.lessons.springweb.weblibrary2.dto.ReportDTO;
+import ru.skypro.lessons.springweb.weblibrary2.exceptions.EmployeeNotFoundException;
 import ru.skypro.lessons.springweb.weblibrary2.exceptions.InternalServerError;
 import ru.skypro.lessons.springweb.weblibrary2.exceptions.ReportNotFoundException;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Employee;
+import ru.skypro.lessons.springweb.weblibrary2.pojo.Position;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Report;
 import ru.skypro.lessons.springweb.weblibrary2.projections.EmployeeFullInfo;
 import ru.skypro.lessons.springweb.weblibrary2.repository.EmployeeRepository;
+import ru.skypro.lessons.springweb.weblibrary2.repository.PositionRepository;
 import ru.skypro.lessons.springweb.weblibrary2.repository.ReportRepository;
 
 import java.io.File;
@@ -35,6 +38,7 @@ import static ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO.fromEmploy
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService{
     private final EmployeeRepository employeeRepository;
+    private final PositionRepository positionRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ReportRepository reportRepository;
 
@@ -55,9 +59,14 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
+    public void addPosition(Position position){
+        positionRepository.save(position);
+    }
+
+    @Override
     public void editEmployee(int id, Employee employee) {
         logger.info("Was invoked method for edit a employee with id = {}",id);
-        Employee employeeEdit = employeeRepository.findById(id);
+        Employee employeeEdit = employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
         employeeEdit.setName(employee.getName());
         employeeEdit.setSalary(employee.getSalary());
         employeeEdit.setPosition(employee.getPosition());
@@ -68,7 +77,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public EmployeeDTO getEmployeeById(int id) {
         logger.info("Was invoked method for get a employee with id = {}",id);
-        EmployeeDTO employeeDTO = fromEmployee(employeeRepository.findById(id));
+        EmployeeDTO employeeDTO = fromEmployee(employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new));
         logger.debug("Successful access to the database");
         return employeeDTO;
     }
@@ -76,6 +85,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public void deleteEmployeeById(int id) {
         logger.info("Was invoked method for delete a employee with id = {}",id);
+        Employee employee = employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
         employeeRepository.deleteById(id);
         logger.debug("Successful access to the database");
     }

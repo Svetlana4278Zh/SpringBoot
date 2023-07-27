@@ -15,7 +15,7 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Lob
-    @Column(columnDefinition = "oid")
+//    @Column(columnDefinition = "oid")
     private String report;
 
 }

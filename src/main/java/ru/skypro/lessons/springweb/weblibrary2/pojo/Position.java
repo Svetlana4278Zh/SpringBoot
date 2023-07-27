@@ -19,4 +19,7 @@ public class Position {
     @Column(name = "name_position", nullable = false, length = 16)
     private String namePosition;
 
+    public Position(String namePosition) {
+        this.namePosition = namePosition;
+    }
 }

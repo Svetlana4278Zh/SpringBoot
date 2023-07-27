@@ -16,11 +16,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
             nativeQuery = true)
     List<Employee> findAllEmployees();
 
-    @Query(value = "SELECT * FROM employee",
-            nativeQuery = true)
+    @Query("SELECT new ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO(e.id, e.name, e.salary) " +
+            "FROM Employee e")
     List<EmployeeDTO> findAllEmployeesDTO();
-
-    Employee findById(int id);
 
     List<Employee> findByName(String name);
 

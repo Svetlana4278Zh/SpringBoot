@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springweb.weblibrary2.dto.EmployeeDTO;
+import ru.skypro.lessons.springweb.weblibrary2.exceptions.EmployeeNotFoundException;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Employee;
 import ru.skypro.lessons.springweb.weblibrary2.pojo.Position;
 import ru.skypro.lessons.springweb.weblibrary2.projections.EmployeeFullInfo;
@@ -67,7 +68,7 @@ public class EmployeeServiceImplTest {
         Employee expected = new Employee(1, "Ivan", 100000, new Position(1, "Manager"));
         int input = 1;
 
-        when(mockedEmployeeRepository.findById(input)).thenReturn(expected);
+        when(mockedEmployeeRepository.findById(input).orElseThrow(EmployeeNotFoundException::new)).thenReturn(expected);
 
         employeeService.editEmployee(input,expected);
 
@@ -91,7 +92,7 @@ public class EmployeeServiceImplTest {
         int input = 1;
         EmployeeDTO expected = fromEmployee(employee);
 
-        when(mockedEmployeeRepository.findById(input)).thenReturn(employee);
+        when(mockedEmployeeRepository.findById(input).orElseThrow(EmployeeNotFoundException::new)).thenReturn(employee);
 
         EmployeeDTO actual = employeeService.getEmployeeById(input);
 
