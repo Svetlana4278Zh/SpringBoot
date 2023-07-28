@@ -1,5 +1,6 @@
 package ru.skypro.lessons.springweb.weblibrary2.service;
 
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,6 +23,7 @@ import ru.skypro.lessons.springweb.weblibrary2.repository.EmployeeRepository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -68,7 +70,7 @@ public class EmployeeServiceImplTest {
         Employee expected = new Employee(1, "Ivan", 100000, new Position(1, "Manager"));
         int input = 1;
 
-        when(mockedEmployeeRepository.findById(input).orElseThrow(EmployeeNotFoundException::new)).thenReturn(expected);
+        when(mockedEmployeeRepository.findById(input)).thenReturn(Optional.of(expected));
 
         employeeService.editEmployee(input,expected);
 
@@ -92,7 +94,7 @@ public class EmployeeServiceImplTest {
         int input = 1;
         EmployeeDTO expected = fromEmployee(employee);
 
-        when(mockedEmployeeRepository.findById(input).orElseThrow(EmployeeNotFoundException::new)).thenReturn(employee);
+        when(mockedEmployeeRepository.findById(input)).thenReturn(Optional.of(employee));
 
         EmployeeDTO actual = employeeService.getEmployeeById(input);
 
@@ -102,7 +104,9 @@ public class EmployeeServiceImplTest {
 
     @Test
     void deleteEmployeeById_ValidId_ShouldCallRepository(){
+        Employee employee = new Employee(1, "Ivan", 100000, new Position(1, "Manager"));
         int input = 1;
+        when(mockedEmployeeRepository.findById(input)).thenReturn(Optional.of(employee));
         employeeService.deleteEmployeeById(input);
 
         verify(mockedEmployeeRepository, times(1)).deleteById(input);
